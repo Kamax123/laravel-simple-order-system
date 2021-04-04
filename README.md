@@ -25,6 +25,10 @@ Mailhog interface which will display all the sent e-mails from the app.
 
 To stop the application, run './vendor/bin/sail down'
 
+## Preview
+
+![Capture](https://user-images.githubusercontent.com/61164876/113510303-dd799b00-9562-11eb-9c89-92924f4ad8bc.JPG)
+
 ## Features
 
 - Order system with automatic dummy data generator
