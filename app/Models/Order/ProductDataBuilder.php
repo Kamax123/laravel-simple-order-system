@@ -36,7 +36,7 @@ class ProductDataBuilder
             $newQuantity = $originalQuantity - $reqQuantities[$key];
             if ($newQuantity < 0) {
                 return [
-                    OrderController::ERRORS => sprintf(
+                    OrderController::ERRORS => \sprintf(
                         'Product with name %s does not have enough stock to fulfill the order',
                         $product->name
                     )
@@ -48,7 +48,7 @@ class ProductDataBuilder
 
             $product->orderedQuantity = $reqQuantities[$key];
             $product->taxRate = $taxRate;
-            $product->taxAmount = number_format((float)$taxAmount, 2, '.', '');
+            $product->taxAmount = \number_format((float)$taxAmount, 2, '.', '');
         }
 
         return $products;

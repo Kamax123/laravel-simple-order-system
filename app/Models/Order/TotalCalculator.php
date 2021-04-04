@@ -43,6 +43,6 @@ class TotalCalculator
      */
     private function formatTotals($total): string
     {
-        return number_format((float)$total, 2, '.', '');
+        return \number_format((float)$total, 2, '.', '');
     }
 }

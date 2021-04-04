@@ -107,7 +107,7 @@ class OrderController extends Controller
     private function validateRequestedProducts($reqProducts): array
     {
         // Filter out null and 0 values
-        $reqProducts = array_filter($reqProducts);
+        $reqProducts = \array_filter($reqProducts);
         if (empty($reqProducts))
         {
             return [self::ERRORS => 'Please select a quantity for at least one product'];

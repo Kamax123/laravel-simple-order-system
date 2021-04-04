@@ -43,7 +43,7 @@ class InvoiceManager
 
     public function generateInvoice(string $format, $products, array $totals, bool $byEmail, string $email = null)
     {
-        if (!in_array($format, self::ALLOWED_FORMATS))
+        if (!\in_array($format, self::ALLOWED_FORMATS))
         {
             Log::error(sprintf(
                 'Invoice format %s is not supported',
