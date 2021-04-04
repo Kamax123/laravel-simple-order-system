@@ -15,7 +15,7 @@
    composer install
 6. ./vendor/bin/sail up
 7. docker exec -it laravel-simple-order-system_laravel.test_1 php artisan key:generate
-8. docker exec -it laravel-simple-order-system_laravel.test_1 php artisan migrate --seed
+8. docker exec -it laravel-simple-order-system_laravel.test_1 php artisan migrate:fresh --seed
 
 That's it! Now you should have the environment set up on your local. Go to 'localhost' in your
 browser to use the app.

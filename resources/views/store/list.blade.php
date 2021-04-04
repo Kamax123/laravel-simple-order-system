@@ -30,6 +30,7 @@
                     </thead>
                     <tbody>
                     @foreach($products as $product)
+                        @if($product->quantity > 0)
                         <tr>
                             <td>{{$product->id}}</td>
                             <td>{{$product->name}}</td>
@@ -37,6 +38,7 @@
                             <td>{{$product->price}}</td>
                             <td><input name="products[{{$product->id}}]" type="number" min="1" max="{{$product->quantity}}"/></td>
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
@@ -58,7 +60,8 @@
                 </select>
                 <label for="email">Enter your e-mail address:</label>
                 <input class="input-group" type="email" id="email" name="email">
-                <button type="submit" class="btn btn-dark mp10">Send Order</button>
+                <button type="submit" style="margin-top: 1em" class="btn btn-dark mp10">Send Order</button>
             </form>
         </div>
+    </div>
 @endsection
