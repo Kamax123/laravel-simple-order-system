@@ -3,10 +3,14 @@
 namespace App\Models\Invoices;
 
 use App\Models\Order\TotalCalculator;
+use Illuminate\Support\Collection;
 
 class JsonInvoice implements InvoiceInterface
 {
-    public function createInvoice($products, $totals)
+    /**
+     * @inheritDoc
+     */
+    public function createInvoice(Collection $products, array $totals)
     {
         $productData = [];
         $invoiceData = [];
@@ -22,6 +26,6 @@ class JsonInvoice implements InvoiceInterface
         $invoiceData['total_before_tax'] = $totals[TotalCalculator::TOTAL_BEFORE_TAX];
         $invoiceData['grand_total'] = $totals[TotalCalculator::GRAND_TOTAL];
 
-        return json_encode($invoiceData);
+        return \json_encode($invoiceData);
     }
 }

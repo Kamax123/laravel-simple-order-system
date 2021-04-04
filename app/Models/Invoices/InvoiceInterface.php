@@ -2,8 +2,15 @@
 
 namespace App\Models\Invoices;
 
+use Illuminate\Support\Collection;
+
 interface InvoiceInterface
 {
-    public function createInvoice($products, $totals);
+    /**
+     * @param Collection $products
+     * @param array $totals
+     * @return mixed
+     */
+    public function createInvoice(Collection $products, array $totals);
 }
 

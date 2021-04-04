@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
  */
 class OrderController extends Controller
 {
+    const ERRORS = 'errors';
+
     /**
      * @var TotalCalculator
      */
@@ -57,8 +59,8 @@ class OrderController extends Controller
     public function placeOrder(Request $request)
     {
         $reqProducts = $this->validateRequestedProducts($request->products);
-        if (\array_key_exists('errors', $reqProducts)) {
-            return redirect()->back()->withErrors(['errors' => $reqProducts['errors']]);
+        if (\array_key_exists(self::ERRORS, $reqProducts)) {
+            return redirect()->back()->withErrors([self::ERRORS => $reqProducts[self::ERRORS]]);
         }
 
         $requiredFields = [
@@ -81,15 +83,19 @@ class OrderController extends Controller
         $countryId = $request->get('country');
 
         $products = $this->productResource->getProductsByIds($productIds);
-        $productsData = $this->dataBuilder->buildProductData($products, $quantities, $countryId);
+        $productsData = $this->dataBuilder->buildProductData($products, $productIds, $quantities, $countryId);
 
         // Do not allow placing order if products do not have sufficient stock
-        if (\is_array($productsData) && \array_key_exists('errors', $productsData)) {
-            return redirect()->back()->withErrors(['errors' => $productsData['errors']]);
+        if (\is_array($productsData) && \array_key_exists(self::ERRORS, $productsData)) {
+            return redirect()->back()->withErrors([self::ERRORS => $productsData[self::ERRORS]]);
         }
 
         $totals = $this->totalCalculator->calculateTotals($products);
-        $this->orderProcessor->save($products, $totals);
+        $isSaved = $this->orderProcessor->save($products, $totals);
+
+        if (!$isSaved) {
+            return redirect()->back()->withErrors([self::ERRORS => $isSaved[self::ERRORS]]);
+        }
 
         return $this->invoiceManager->generateInvoice($invoiceFormat, $products, $totals, $byEmail, $email);
     }
@@ -104,12 +110,12 @@ class OrderController extends Controller
         $reqProducts = array_filter($reqProducts);
         if (empty($reqProducts))
         {
-            return ['errors' => 'Please select a quantity for at least one product'];
+            return [self::ERRORS => 'Please select a quantity for at least one product'];
         }
 
         foreach ($reqProducts as $productQuantity) {
             if ((int)$productQuantity < 0) {
-                return ['errors' => 'Product quantity cannot be negative'];
+                return [self::ERRORS => 'Product quantity cannot be negative'];
             }
         }
 

@@ -70,7 +70,7 @@ class InvoiceManager
 
             $this->invoiceMail->sendInvoiceMail($invoice, $email);
 
-            return response(['message' => 'Order created successfully!']);
+            return view('order.success');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

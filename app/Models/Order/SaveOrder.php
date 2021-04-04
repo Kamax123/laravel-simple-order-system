@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\ResourceModels\ProductResource;
@@ -26,7 +27,7 @@ class SaveOrder
      * Saves order to database
      * @param Collection $products
      * @param array $totals
-     * @return void
+     * @return mixed
      */
     public function save(Collection $products, array $totals)
     {
@@ -57,6 +58,10 @@ class SaveOrder
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
+
+            return [OrderController::ERRORS => 'Something went wrong while placing the order. Please try again'];
         }
+
+        return true;
     }
 }

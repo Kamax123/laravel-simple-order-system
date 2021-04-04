@@ -3,6 +3,7 @@
 namespace App\Models\Order;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 
 class TotalCalculator
 {
@@ -16,6 +17,8 @@ class TotalCalculator
      */
     public function calculateTotals(Collection $products): array
     {
+        Event::dispatch('before_calculate_total', $products);
+
         $grandTotal = 0;
         $totalBeforeTax = 0;
         foreach ($products as $product) {
@@ -25,6 +28,8 @@ class TotalCalculator
 
         $totalBeforeTax = $this->formatTotals($totalBeforeTax);
         $grandTotal = $this->formatTotals($grandTotal);
+
+        Event::dispatch('after_calculate_total', [$products, $totalBeforeTax, $grandTotal]);
 
         return [
             self::TOTAL_BEFORE_TAX => $totalBeforeTax,
