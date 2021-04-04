@@ -14,6 +14,6 @@ class TaxSeeder extends Seeder
      */
     public function run()
     {
-        Tax::factory()->count(90)->create();
+        Tax::factory()->count(100)->create();
     }
 }
