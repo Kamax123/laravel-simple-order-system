@@ -17,7 +17,7 @@
 7. docker exec -it laravel-simple-order-system_laravel.test_1 php artisan key:generate
 8. docker exec -it laravel-simple-order-system_laravel.test_1 php artisan migrate:fresh --seed
 
-That's it! Now you should have the environment set up on your local. Go to 'localhost' in your
+That's it! Now you should have the environment set up on your local. Go to 'http://localhost' in your
 browser to use the app.
 
 If you want to see e-mails go to 'http://localhost:8025/' in your browser. This will open the
